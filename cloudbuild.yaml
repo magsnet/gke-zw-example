@@ -73,4 +73,4 @@ steps:
     waitFor: 
       - deploy-infra-gke-core
 options:
-  logging: GCS_ONLY
+  logging: CLOUD_LOGGING_ONLY
