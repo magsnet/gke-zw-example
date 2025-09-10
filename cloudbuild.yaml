@@ -72,3 +72,5 @@ steps:
     entrypoint: sh
     waitFor: 
       - deploy-infra-gke-core
+options:
+  logging: GCS_ONLY
