@@ -1,0 +1,74 @@
+steps:
+  - name: 'hashicorp/terraform:1.12.2'
+    env:
+      - ENV=dev
+      - GCLOUD_PROJECT=zw-mcom-payments-v2-dev
+      - FOLDER=terraform-iam
+    args:
+      - ./scripts/deploy-infra.sh
+    id: deploy-infra-iam
+    entrypoint: sh
+  - name: 'hashicorp/terraform:1.12.2'
+    env:
+      - ENV=dev
+      - GCLOUD_PROJECT=zw-mcom-payments-v2-dev
+      - FOLDER=terraform-buckets
+    args:
+      - ./scripts/deploy-infra.sh
+    id: deploy-infra-buckets
+    entrypoint: sh
+    waitFor:
+      - deploy-infra-iam
+  - name: 'hashicorp/terraform:1.12.2'
+    env:
+      - ENV=dev
+      - GCLOUD_PROJECT=zw-mcom-payments-v2-dev
+      - FOLDER=terraform-topics
+    args:
+      - ./scripts/deploy-infra.sh
+    id: deploy-infra-topics
+    entrypoint: sh
+    waitFor: 
+      - iam
+  - name: 'hashicorp/terraform:1.12.2'
+    env:
+      - ENV=dev
+      - GCLOUD_PROJECT=zw-mcom-payments-v2-dev
+      - FOLDER=terraform-database
+    args:
+      - ./scripts/deploy-infra.sh
+    id: deploy-infra-database
+    entrypoint: sh
+    waitFor: 
+      - iam
+  - name: 'hashicorp/terraform:1.12.2'
+    env:
+      - ENV=dev
+      - GCLOUD_PROJECT=zw-mcom-payments-v2-dev
+      - FOLDER=terraform-artifactory
+    args:
+      - ./scripts/deploy-infra.sh
+    id: deploy-infra-artifactory
+    entrypoint: sh
+    waitFor: 
+      - iam	  
+  - name: 'hashicorp/terraform:1.12.2'
+    env:
+      - ENV=dev
+      - GCLOUD_PROJECT=zw-mcom-payments-v2-dev
+      - FOLDER=terraform-gke-core
+    args:
+      - ./scripts/deploy-infra.sh
+    id: deploy-infra-gke-core
+    entrypoint: sh	  
+  - name: 'hashicorp/terraform:1.12.2'
+    env:
+      - ENV=dev
+      - GCLOUD_PROJECT=zw-mcom-payments-v2-dev
+      - FOLDER=terraform-gateway
+    args:
+      - ./scripts/deploy-infra.sh
+    id: deploy-infra-gateway
+    entrypoint: sh
+    waitFor: 
+      - deploy-infra-gke-core
