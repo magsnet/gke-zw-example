@@ -36,6 +36,8 @@ echo terraform init -backend-config="bucket=zw-mcom-terraform-state-bucket-$ENV"
 echo terraform validate
 echo terraform plan -var-file="terraform-$ENV.tfvars"
 echo terraform apply -auto-approve -var-file="terraform-$ENV.tfvars"
-sleep 5
+waitingTime=$(shuf -i 1-30 -n 1)
+echo "simulated waiting time: $waitingTime seconds"
+sleep $waitingTime
 
 echo "TF deployment complete"
